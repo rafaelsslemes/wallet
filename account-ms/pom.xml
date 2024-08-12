@@ -59,6 +59,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.mockk/mockk -->
+		<dependency>
+			<groupId>io.mockk</groupId>
+			<artifactId>mockk-jvm</artifactId>
+			<version>1.13.12</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-test-junit5</artifactId>
@@ -76,7 +83,6 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<version>9.0.0</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
