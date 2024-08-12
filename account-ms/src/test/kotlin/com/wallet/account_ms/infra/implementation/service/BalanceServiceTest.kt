@@ -63,7 +63,7 @@ class BalanceServiceTest{
         every { balanceRepositoryInterface.save(any()) } returns updated
 
         val updatedBalance = balanceService.updateValue(
-            TransactionDto(mockUser.id!!, 100.0, TransactionType.DEPOSIT, MovementType.CREDIT, Date.from(Instant.now()))
+            TransactionDto(mockUser.id!!, 100.0, TransactionType.DEPOSIT, MovementType.CREDIT)
         )
         assertNotEquals(mockBalance.value, updatedBalance)
     }
