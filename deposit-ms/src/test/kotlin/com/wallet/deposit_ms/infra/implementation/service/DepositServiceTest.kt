@@ -3,6 +3,7 @@ package com.wallet.deposit_ms.infra.implementation.service
 import com.wallet.deposit_ms.entity.Deposit
 import com.wallet.deposit_ms.infra.dto.DepositDto
 import com.wallet.deposit_ms.infra.interfaces.repository.DepositRepositoryInterface
+import com.wallet.deposit_ms.infra.interfaces.service.MessageServiceInterface
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -19,6 +20,9 @@ class DepositServiceTest {
     @MockK
     private lateinit var  depositRepositoryInterface: DepositRepositoryInterface
 
+    @MockK
+    private lateinit var  messageServiceInterface: MessageServiceInterface
+
     @InjectMockKs
     private lateinit var depositService: DepositService
 
@@ -27,6 +31,7 @@ class DepositServiceTest {
         val userId = UUID.randomUUID()
         val mockDeposit = Deposit(UUID.randomUUID(), userId,100.00)
         every { depositRepositoryInterface.save(any()) } returns mockDeposit
+        every { messageServiceInterface.sendMessage(any(), any()) } returns Unit
 
         val depositId = depositService.create(DepositDto(userId, 100.00))
 
