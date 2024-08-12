@@ -1,7 +1,8 @@
 package com.wallet.account_ms.infra.implementation.controller
 
 import com.wallet.account_ms.entity.Balance
-import com.wallet.account_ms.infra.dto.BalanceUpdateDto
+import com.wallet.account_ms.infra.dto.MovementType
+import com.wallet.account_ms.infra.dto.TransactionDto
 import com.wallet.account_ms.infra.interfaces.controller.BalanceControllerInterface
 import com.wallet.account_ms.infra.interfaces.service.BalanceServiceInterface
 import org.springframework.http.HttpStatus
@@ -26,7 +27,7 @@ class BalanceController(
 
     @PutMapping
     @ResponseStatus(HttpStatus.CREATED)
-    override fun updateValue(dto: BalanceUpdateDto): Double {
+    override fun updateValue(dto: TransactionDto): Double {
        return balanceServiceInterface.updateValue(dto)
     }
 }

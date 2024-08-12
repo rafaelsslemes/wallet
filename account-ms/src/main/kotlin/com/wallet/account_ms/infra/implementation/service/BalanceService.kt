@@ -2,7 +2,8 @@ package com.wallet.account_ms.infra.implementation.service
 
 import com.wallet.account_ms.entity.Balance
 import com.wallet.account_ms.entity.User
-import com.wallet.account_ms.infra.dto.BalanceUpdateDto
+import com.wallet.account_ms.infra.dto.MovementType
+import com.wallet.account_ms.infra.dto.TransactionDto
 import com.wallet.account_ms.infra.dto.TransactionType
 import com.wallet.account_ms.infra.exception.BalanceNotFoundException
 import com.wallet.account_ms.infra.exception.UserNotFoundException
@@ -22,14 +23,12 @@ class BalanceService(val balanceRepositoryInterface: BalanceRepositoryInterface)
 
     }
 
-    override fun updateValue(dto: BalanceUpdateDto): Double {
-        // TODO: Change to Messaging
-
+    override fun updateValue(dto: TransactionDto): Double {
         val balance = balanceRepositoryInterface.findById(dto.userId).orElseThrow{UserNotFoundException("BALANCE_NOT_FOUND")}
 
-        when(dto.transactionType) {
-            TransactionType.CREDIT -> balance.value += dto.value
-            TransactionType.DEBIT -> balance.value -= dto.value
+        when(dto.movementType) {
+            MovementType.CREDIT -> balance.value += dto.value
+            MovementType.DEBIT -> balance.value -= dto.value
         }
 
         val updated = balanceRepositoryInterface.save(balance)
