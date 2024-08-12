@@ -1,0 +1,19 @@
+
+server:
+  port: ${PORT:8020}
+
+bootstrap:
+  servers: ${KAFKA_HOST:localhost:9092}
+
+spring:
+  application:
+    name: payment-ms
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/payment-ms?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
