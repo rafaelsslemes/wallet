@@ -1,3 +1,3 @@
 ## Teste Wallet ##
 
-![applications architecture](./applications\ architecture.png)
+![image info](./applications\ architecture.png)
