@@ -17,7 +17,7 @@ class TransferService(
     private final val topic = "transactions"
 
     override fun create(dto: TransferDto): UUID {
-        val registered = transferRepositoryInterface.save(Transfer(null, dto.payerUserId, dto.payerUserId, dto.value))
+        val registered = transferRepositoryInterface.save(Transfer(null, dto.payerUserId, dto.receiverUserId, dto.value))
 
         try {
             // Outcome from payer
