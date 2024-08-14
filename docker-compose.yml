@@ -1,0 +1,138 @@
+version: '3'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
+    networks:
+      - broker-kafka
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+      image: confluentinc/cp-kafka:latest
+      container_name: kafka
+      networks:
+        - broker-kafka
+      depends_on:
+        - zookeeper
+      ports:
+        - "9092:9092"
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafdrop:
+      image: obsidiandynamics/kafdrop:latest
+      container_name: kafdrop
+      networks:
+        - broker-kafka
+      depends_on:
+        - kafka
+      ports:
+        - "19000:9000"
+      environment:
+        KAFKA_BROKERCONNECT: kafka:29092
+
+  mysql:
+    image: mysql:latest
+    networks:
+      - broker-kafka
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  account-ms:
+    image: account-ms
+    build: ./account-ms/
+    networks: 
+      - broker-kafka
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8000:8000"
+    environment:
+      KAFKA_HOST: kafka:9092
+      MYSQL_HOST: mysql:3306
+
+  deposit-ms:
+    image: deposit-ms
+    build: ./deposit-ms/
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8010:8010"
+    environment:
+      KAFKA_HOST: kafka:9092
+      MYSQL_HOST: mysql:3306
+
+  withdraw-ms:
+    image: withdraw-ms
+    build: ./withdraw-ms/
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8020:8020"
+    environment:
+      KAFKA_HOST: kafka:9092
+      MYSQL_HOST: mysql:3306
+
+  transfer-ms:
+    image:  transfer-ms
+    build: ./transfer-ms/
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8030:8030"
+    environment:
+      KAFKA_HOST: kafka:9092
+      MYSQL_HOST: mysql:3306
+
+  payment-ms:
+    image: payment-ms
+    build: ./payment-ms/
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8040:8040"
+    environment:
+      KAFKA_HOST: kafka:9092
+      MYSQL_HOST: mysql:3306
+
+  transactions-ms:
+    image: transactions-ms
+    build: ./transactions-ms/
+    networks:
+      - broker-kafka
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8050:8050"
+    environment:
+      KAFKA_HOST: kafka:9092
+      MYSQL_HOST: mysql:3306
+
+networks:
+  broker-kafka:
+    driver: bridge

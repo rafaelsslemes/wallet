@@ -19,6 +19,9 @@ class KafkaConfig {
     private lateinit var servers : String
 
     private fun setProperties() : Map<String, Any> {
+        println("KAFKA SERVERS")
+
+        println(servers)
         return HashMap<String, Any>().apply {
             put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers)
             put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java)
