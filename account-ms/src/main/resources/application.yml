@@ -2,7 +2,7 @@ server:
   port: ${PORT:8000}
 
 bootstrap:
-  servers: ${KAFKA_HOST:localhost:9092}
+  servers: ${KAFKA_HOST}
 
 spring:
   application:
@@ -12,7 +12,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/account-ms?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST}/account-ms?createDatabaseIfNotExist=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
